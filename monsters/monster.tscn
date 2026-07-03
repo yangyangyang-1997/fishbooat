@@ -4,23 +4,97 @@
 [ext_resource type="Texture2D" uid="uid://b7qci8vtaet5b" path="res://textures/monsters/placeholder.png" id="1_okp8s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gp7pn"]
-size = Vector2(107, 43)
+size = Vector2(109, 55)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7d0jg"]
-size = Vector2(130, 82)
+size = Vector2(147, 95)
 
-[node name="monster" type="CharacterBody2D" unique_id=1691408895]
+[sub_resource type="Animation" id="Animation_dbe51"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("art/sprite:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("art:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7d0jg"]
+resource_name = "disapear"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("art/sprite:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_x5og3"]
+resource_name = "pulse"
+length = 0.39999999999999997
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("art:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.8, 1.2), Vector2(1.4, 0.6), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dbe51"]
+_data = {
+&"RESET": SubResource("Animation_dbe51"),
+&"disapear": SubResource("Animation_7d0jg"),
+&"pulse": SubResource("Animation_x5og3")
+}
+
+[node name="monster" type="RigidBody2D" unique_id=839033575]
 collision_layer = 32
 collision_mask = 17
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+linear_damp = 2.0
 script = ExtResource("1_7d0jg")
+pulse_interval = 1.5
 
-[node name="sprite" type="Sprite2D" parent="." unique_id=103638970]
+[node name="art" type="Node2D" parent="." unique_id=1914485545]
+
+[node name="sprite" type="Sprite2D" parent="art" unique_id=103638970]
+position = Vector2(0, -9)
 scale = Vector2(2, 2)
 texture = ExtResource("1_okp8s")
 
 [node name="body_shape" type="CollisionShape2D" parent="." unique_id=712427768]
 unique_name_in_owner = true
-position = Vector2(2.5, -4.5)
+position = Vector2(3.5, -15.5)
 shape = SubResource("RectangleShape2D_gp7pn")
 
 [node name="attack_range" type="Area2D" parent="." unique_id=1748126781]
@@ -29,5 +103,9 @@ collision_layer = 512
 collision_mask = 16
 
 [node name="box" type="CollisionShape2D" parent="attack_range" unique_id=1920460590]
-position = Vector2(43, -10)
+position = Vector2(73.5, -16.5)
 shape = SubResource("RectangleShape2D_7d0jg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=925710167]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_dbe51")

@@ -83,6 +83,12 @@ godot project.godot
 - Public API variables, exported properties, and signals should NOT use `_` prefix
 - This helps distinguish internal implementation details from public interface
 
+**GDScript collision event handling:**
+- **The `body` parameter IS the colliding node** - don't use `get_parent()` to find it
+- In signals like `body_entered`, `body_exited`, `area_entered`, the parameter directly references the collision body/area
+- Example: `func _on_body_entered(body: Node): if body is Boat:` NOT `if body.get_parent() is Boat`
+- This applies to both RigidBody2D and Area2D collision signals
+
 ## Common Pitfalls
 
 1. **Don't move boat with physics** - boat should stay centered, rotate only for balance

@@ -8,10 +8,70 @@
 [sub_resource type="GDScript" id="GDScript_jb02s"]
 resource_name = "GameCamera"
 script/source = "extends Camera2D
+
+# 相机抖动参数（私有变量用_开头）
+var _shake_strength = 0.0  # 当前抖动强度
+var _shake_decay = 5.0  # 抖动衰减速度
+var _shake_duration = 0.0  # 抖动持续时间（用于固定时长模式）
+var _shake_timer = 0.0  # 抖动计时器
+var _use_duration_mode = false  # 是否使用固定时长模式
+
+func _ready():
+	# 重置位置
+	offset = Vector2.ZERO
+
+func _process(delta):
+	# 更新抖动
+	if _shake_strength > 0:
+		if _use_duration_mode:
+			# 固定时长模式
+			_shake_timer += delta
+			if _shake_timer >= _shake_duration:
+				_shake_strength = 0.0
+				_shake_timer = 0.0
+				_use_duration_mode = false
+		else:
+			# 衰减模式
+			_shake_strength -= _shake_decay * delta
+			_shake_strength = max(0.0, _shake_strength)
+		
+		# 生成随机抖动偏移
+		var shake_offset = Vector2(
+			randf_range(-_shake_strength, _shake_strength),
+			randf_range(-_shake_strength, _shake_strength)
+		)
+		
+		offset = shake_offset
+	else:
+		offset = Vector2.ZERO
+
+# 触发相机抖动（简单版本，使用衰减模式）
+func shake(strength: float):
+	_shake_strength = strength
+	_shake_decay = 5.0
+	_use_duration_mode = false
+
+# 触发相机抖动（扩展版本，提供更多控制参数）
+# strength: 抖动幅度
+# duration: 抖动持续时间（秒），如果 <= 0 则使用衰减模式
+# decay: 衰减速度（仅在衰减模式下有效）
+func shake_ex(strength: float, duration: float = 0.0, decay: float = 5.0):
+	_shake_strength = strength
+	_shake_decay = decay
+	
+	if duration > 0:
+		# 使用固定时长模式
+		_shake_duration = duration
+		_shake_timer = 0.0
+		_use_duration_mode = true
+	else:
+		# 使用衰减模式
+		_use_duration_mode = false
 "
 
 [node name="Game" type="Node2D" unique_id=1044281898]
 script = ExtResource("1_qqjhb")
+camera_shake_strength = 2.0
 
 [node name="camera" type="Camera2D" parent="." unique_id=537822726]
 unique_name_in_owner = true

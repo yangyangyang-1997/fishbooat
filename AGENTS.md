@@ -69,10 +69,19 @@ godot project.godot
 - Unique IDs in scenes used for node references - preserve these when editing .tscn files
 
 **GDScript typing rules:**
-- **Do not proactively use type inference syntax** (`:=`) when writing new code
-- Always use dynamic typing with `=` for new variables: `var x = 0.0`
-- If you see `:=` already in the codebase, leave it alone - it was added by the developer
-- Explicit type annotations are OK: `var x: float = 0.0`
+- **NEVER write `:=` yourself** - only use `=` when writing any code
+- **NEVER change existing `:=` to `=`** - if you see `:=` in the file, it was added by the developer intentionally, do not touch it
+- When writing new lines or modifying existing lines:
+  - Use `var x = 0.0` (dynamic typing)
+  - OR use `var x: float = 0.0` (explicit type annotation)
+  - NEVER use `var x := 0.0` (type inference)
+- This applies to ALL variable declarations: `var`, `@export var`, `@onready var`, etc.
+
+**GDScript naming conventions:**
+- **Private variables use `_` prefix** - variables not meant to be accessed from outside should start with underscore
+- Examples: `var _internal_state = 0`, `var _cache_data = []`
+- Public API variables, exported properties, and signals should NOT use `_` prefix
+- This helps distinguish internal implementation details from public interface
 
 ## Common Pitfalls
 

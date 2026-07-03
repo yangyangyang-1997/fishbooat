@@ -4,12 +4,14 @@ class_name Bullet
 # 物理参数
 var velocity = Vector2.ZERO  # 当前速度
 var gravity = 980.0  # 重力加速度（像素/秒^2）
-var lifetime = 10.0  # 生命周期（秒）
-var elapsed_time = 0.0  # 已存在时间
+@export var lifetime := 10.0  # 生命周期（秒）
+var elapsed_time := 0.0  # 已存在时间
 
 func _ready():
-	# 启动生命周期计时器
-	pass
+	var timer := Timer.new()
+	timer.wait_time = lifetime
+	timer.timeout.connect(queue_free)
+	add_child(timer)
 
 func _process(delta):
 	# 更新生命周期

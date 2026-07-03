@@ -5,7 +5,10 @@ class_name Boat
 @export var cannon_angle_min = 0.0  # 最小角度（度）
 @export var cannon_angle_max = 180.0  # 最大角度（度）
 @export var bullet_speed = 500.0  # 子弹初速度
+@export var cannon_rotation_speed = 3.0  # 炮口旋转速度（弧度/秒）
 var bullet_scene = preload("res://game/boat/bullet.tscn")
+var cannon_current_angle = 0.0  # 炮的当前角度（弧度）
+var cannon_target_angle = 0.0  # 炮的目标角度（弧度）
 
 # 浮动参数
 var float_amplitude = 8.0  # 上下浮动幅度（像素）
@@ -38,6 +41,12 @@ func _ready():
 	# 随机化第一次海浪时间
 	randomize()
 	next_wave_time = randf_range(wave_interval_min, wave_interval_max)
+	
+	# 初始化炮的角度
+	var cannon = %cannon
+	if cannon != null:
+		cannon_current_angle = cannon.rotation
+		cannon_target_angle = cannon_current_angle
 
 func _process(delta):
 	# 更新浮动时间
@@ -83,27 +92,45 @@ func _input(event):
 
 func _update_cannon_aim():
 	# 获取炮节点
-	var cannon = %cannon
+	var cannon :Node2D= %cannon
 	if cannon == null:
 		return
 	
 	# 计算从炮到鼠标的方向
-	var direction = get_global_mouse_position() - cannon.global_position
-	# 计算角度（弧度）
-	var target_angle = atan2(-direction.y, -direction.x)
-	
-	# 转换为度数，0度是向右，逆时针增加
-	# 我们需要转换为：0度向左，180度向右
-	var angle_deg = rad_to_deg(target_angle)
-
+	var direction := get_global_mouse_position() - cannon.global_position
+	var target_deg = rad_to_deg((-transform.x.normalized()).angle_to(direction))
+	#if target_deg > -90 and target_deg < 0:
+		#target_deg = target_deg
+	if target_deg > -180 and target_deg < -90:
+		target_deg += 360
 	# 限制在可配置的范围内（0度向左，180度向右）
-	#angle_deg = -angle_deg + 180 if angle_deg < 0 else angle_deg 
-	print("target angle: ", angle_deg)
-	angle_deg = clamp(angle_deg, cannon_angle_min, cannon_angle_max)
-	print("real angle: ", angle_deg)
+	target_deg = clamp(target_deg, cannon_angle_min, cannon_angle_max)
+	
+	# 转回弧度
+	cannon_target_angle = deg_to_rad(target_deg)
+	
+	# 计算角度差，处理跨越边界的情况
+	var angle_diff = cannon_target_angle - cannon_current_angle
+	# 将角度差规范化到 [-PI, PI] 范围，选择最短路径
+	while angle_diff > PI:
+		angle_diff -= 2.0 * PI
+	while angle_diff < -PI:
+		angle_diff += 2.0 * PI
+	
+	# 根据最大旋转速度平滑移动
+	var max_rotation_this_frame = cannon_rotation_speed * get_process_delta_time()
+	if abs(angle_diff) <= max_rotation_this_frame:
+		# 如果差距很小，直接到达目标
+		cannon_current_angle = cannon_target_angle
+	else:
+		# 否则按最大速度旋转
+		if angle_diff > 0:
+			cannon_current_angle += max_rotation_this_frame
+		else:
+			cannon_current_angle -= max_rotation_this_frame
 	
 	# 应用到炮的旋转
-	cannon.rotation = deg_to_rad(angle_deg)
+	cannon.rotation = cannon_current_angle
 
 func _fire_cannon():
 	# 获取炮和子弹生成点

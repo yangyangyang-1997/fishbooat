@@ -89,6 +89,13 @@ godot project.godot
 - Example: `func _on_body_entered(body: Node): if body is Boat:` NOT `if body.get_parent() is Boat`
 - This applies to both RigidBody2D and Area2D collision signals
 
+**Editing files - preserving user configuration:**
+- **NEVER change @export variable values when editing code** - the developer has tuned these values in the editor or code
+- When using the Edit tool, keep `oldString` as small as possible to avoid including @export lines
+- If you must include @export lines in edits, preserve their exact values from the file
+- Example: If the file has `@export var speed = 123.4`, keep it as 123.4, NOT change it back to a default value
+- This applies to all configuration values, not just @export variables
+
 ## Common Pitfalls
 
 1. **Don't move boat with physics** - boat should stay centered, rotate only for balance

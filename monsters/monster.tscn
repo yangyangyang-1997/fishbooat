@@ -14,7 +14,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("art/sprite:modulate:a")
+tracks/0/path = NodePath("flip/art/sprite:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,7 +26,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("art:scale")
+tracks/1/path = NodePath("flip/art:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -38,7 +38,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("art:rotation")
+tracks/2/path = NodePath("flip/art:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -54,7 +54,7 @@ length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("art/sprite:modulate:a")
+tracks/0/path = NodePath("flip/art/sprite:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -70,7 +70,7 @@ length = 0.39999999999999997
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("art:rotation")
+tracks/0/path = NodePath("flip/art:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -86,7 +86,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("art:scale")
+tracks/0/path = NodePath("flip/art:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -113,9 +113,11 @@ linear_damp = 2.0
 script = ExtResource("1_7d0jg")
 pulse_interval = 1.5
 
-[node name="art" type="Node2D" parent="." unique_id=1914485545]
+[node name="flip" type="Node2D" parent="." unique_id=304544150]
 
-[node name="sprite" type="Sprite2D" parent="art" unique_id=103638970]
+[node name="art" type="Node2D" parent="flip" unique_id=1914485545]
+
+[node name="sprite" type="Sprite2D" parent="flip/art" unique_id=103638970]
 position = Vector2(0, -9)
 scale = Vector2(2, 2)
 texture = ExtResource("1_okp8s")

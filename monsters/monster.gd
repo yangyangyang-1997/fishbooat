@@ -1,6 +1,12 @@
 extends RigidBody2D
 class_name Monster
 
+# 移动方向枚举
+enum Direction {
+	LEFT = -1,
+	RIGHT = 1
+}
+
 # 移动参数
 @export var pulse_distance = 50.0  # 每次脉冲移动的距离（像素）
 @export var pulse_interval = 1.0  # 脉冲间隔（秒）
@@ -18,6 +24,9 @@ var _current_health = 100.0  # 当前生命值
 # 引用
 var game: Game
 var _boat: Node = null
+
+# 移动方向（创建时设置，之后不再改变）
+var move_direction = Direction.RIGHT
 
 # 内部状态
 var _is_attacking = false  # 是否正在攻击
@@ -44,6 +53,18 @@ func _ready():
 	
 	# 连接攻击范围信号
 	%attack_range.body_entered.connect(_on_attack_range_body_entered)
+
+# 设置移动方向（在生成时调用）
+func set_direction(direction: Direction):
+	move_direction = direction
+	# 根据方向翻转精灵（只翻转视觉节点，不影响物理）
+	for c in get_children():
+		if direction == Direction.LEFT:
+			$flip.scale.x = -1
+			%body_shape.scale.x = -1
+			%attack_range.scale.x = -1
+		else:
+			scale = Vector2.ONE  # 向右移动，正常朝向右
 	
 	print("Monster ready, mass: ", mass, " gravity_scale: ", gravity_scale)
 
@@ -65,12 +86,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 # 施加一次脉冲推力
 func _apply_pulse():
-	# 向船的方向施加冲量
-	var direction = 1.0  # 默认向右
-	if _boat != null:
-		direction = sign(_boat.global_position.x - global_position.x)
-	
-	var impulse = Vector2(direction * pulse_force, 0)
+	# 使用固定的移动方向
+	var impulse = Vector2(move_direction * pulse_force, 0)
 	apply_central_impulse(impulse)
 	anim_player.play("pulse")
 
@@ -100,20 +117,21 @@ func _perform_attack():
 	# 清除当前速度
 	linear_velocity = Vector2.ZERO
 	
-	# 1. 后撤阶段
-	var retreat_direction = -sign(_boat.global_position.x - global_position.x)
-	apply_central_impulse(Vector2(retreat_direction * retreat_force, 0))
+	# 1. 后撤阶段（反向）
+	apply_central_impulse(Vector2(-move_direction * retreat_force, 0))
 	
 	# 等待后撤完成（速度降低）
 	await get_tree().create_timer(0.5).timeout
+	anim_player.stop()
 	anim_player.play("pulse")
 
-	# 2. 冲撞阶段
+	# 2. 冲撞阶段（正向）
 	linear_velocity = Vector2.ZERO  # 清除速度
-	var charge_direction = sign(_boat.global_position.x - global_position.x)
-	apply_central_impulse(Vector2(charge_direction * charge_force, 0))
+	apply_central_impulse(Vector2(move_direction * charge_force, 0))
 	
-	_boat.apply_impact(1)
+	if _boat and _boat.has_method("apply_impact"):
+		_boat.apply_impact(move_direction * 1.0)
+	
 	await get_tree().create_timer(0.5).timeout
 	_disappear()
 
@@ -123,6 +141,7 @@ func take_damage(damage: float):
 		return
 	_current_health -= damage
 	print("Monster took ", damage, " damage, health: ", _current_health, "/", max_health)
+	anim_player.stop()
 	anim_player.play("hurt")
 	if _current_health <= 0:
 		_die()
@@ -145,6 +164,7 @@ func _die():
 func _disappear():
 	# 停止所有物理运动
 	set_deferred("freeze", true)
+	anim_player.stop()
 	anim_player.play("disapear")
 	await anim_player.animation_finished
 	queue_free()

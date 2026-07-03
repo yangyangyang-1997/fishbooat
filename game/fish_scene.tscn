@@ -5,10 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://d0d30gjx3xl2g" path="res://fishes/fish.tscn" id="2_cqyub"]
 [ext_resource type="PackedScene" uid="uid://lepi4l2gvua1" path="res://monster/monster.tscn" id="3_jxsqw"]
 
+[sub_resource type="GDScript" id="GDScript_jb02s"]
+resource_name = "GameCamera"
+script/source = "extends Camera2D
+"
+
 [node name="Game" type="Node2D" unique_id=1044281898]
 script = ExtResource("1_qqjhb")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=537822726]
+[node name="camera" type="Camera2D" parent="." unique_id=537822726]
+unique_name_in_owner = true
+script = SubResource("GDScript_jb02s")
 
 [node name="sky" type="ColorRect" parent="." unique_id=842123220]
 offset_left = -592.0

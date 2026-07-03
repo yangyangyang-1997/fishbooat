@@ -69,9 +69,9 @@ godot project.godot
 - Unique IDs in scenes used for node references - preserve these when editing .tscn files
 
 **GDScript typing rules:**
-- **Never use type inference syntax** (`:=`) - always use dynamic typing with `=`
-- Type inference can fail unpredictably, causing compilation issues
-- Write `var x = 0.0` not `var x := 0.0`
+- **Do not proactively use type inference syntax** (`:=`) when writing new code
+- Always use dynamic typing with `=` for new variables: `var x = 0.0`
+- If you see `:=` already in the codebase, leave it alone - it was added by the developer
 - Explicit type annotations are OK: `var x: float = 0.0`
 
 ## Common Pitfalls

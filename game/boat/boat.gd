@@ -1,44 +1,53 @@
 extends Node2D
 class_name Boat
 
-
 signal bullet_fire(global_direction: Vector2)
 
 # 加农炮参数
-@export var cannon_angle_min = 0.0  # 最小角度（度）
-@export var cannon_angle_max = 180.0  # 最大角度（度）
-@export var bullet_speed = 500.0  # 子弹初速度
-@export var cannon_rotation_speed = 3.0  # 炮口旋转速度（弧度/秒）
-@export var recoil_force = 2.0  # 后座力强度
+@export var bullet_speed := 500.0  # 子弹初速度
+@export var fire_cooldown := 0.5  # 发射冷却时间（秒）
+
+@export var cannon_angle_min := 0.0  # 最小角度（度）
+@export var cannon_angle_max := 180.0  # 最大角度（度）
+@export var cannon_rotation_speed := 3.0  # 炮口旋转速度（弧度/秒）
+@export var recoil_force := 2.0  # 后座力强度
+
 var bullet_scene = preload("res://game/boat/bullet.tscn")
 var cannon_current_angle = 0.0  # 炮的当前角度（弧度）
 var cannon_target_angle = 0.0  # 炮的目标角度（弧度）
+var cooldown_timer = 0.0  # 当前冷却计时器
 
 # 浮动参数
-var float_amplitude = 8.0  # 上下浮动幅度（像素）
-var float_speed = 1.5  # 浮动速度
-var float_time = 0.0  # 浮动时间累积
-var float_velocity = 0.0  # 垂直浮动速度（受冲击影响）
-var float_damping = 3.0  # 垂直浮动阻尼
-var float_impact_scale = 20.0  # y轴冲击力缩放系数
+var float_amplitude := 8.0  # 上下浮动幅度（像素）
+var float_speed := 1.5  # 浮动速度
+var float_time := 0.0  # 浮动时间累积
+var float_velocity := 0.0  # 垂直浮动速度（受冲击影响）
+@export var float_damping := 3.0  # 垂直浮动阻尼
+@export var float_impact_scale := 20.0  # y轴冲击力缩放系数
 
 # 倾斜/晃动参数
-var tilt_angle = 0.0  # 当前倾斜角度（弧度）
-var tilt_velocity = 0.0  # 倾斜角速度
-var tilt_spring_strength = 5.0  # 弹簧恢复力（类似浮力的恢复力矩）
-var tilt_damping = 0.6  # 阻尼系数（模拟水的阻力）
-var max_tilt = deg_to_rad(50.0)  # 最大倾斜角度
+var tilt_angle := 0.0  # 当前倾斜角度（弧度）
+var tilt_velocity := 0.0  # 倾斜角速度
+@export var tilt_spring_strength := 5.0  # 弹簧恢复力（类似浮力的恢复力矩）
+@export var tilt_damping := 0.6  # 阻尼系数（模拟水的阻力）
+@export var max_tilt := 50.0  # 最大倾斜角度
 
 # 海浪参数
-var wave_timer = 0.0
-var wave_interval_min = 3.0  # 最小海浪间隔
-var wave_interval_max = 8.0  # 最大海浪间隔
-var next_wave_time = 5.0  # 下次海浪时间
-var wave_strength = 0.5  # 海浪冲击强度
+var wave_timer := 0.0
+var wave_interval_min := 3.0  # 最小海浪间隔
+var wave_interval_max := 8.0  # 最大海浪间隔
+var next_wave_time := 5.0  # 下次海浪时间
+@export var wave_strength = 0.5  # 海浪冲击强度
 
-# 水平面高度（临时方案，相对于船的初始位置）
-var water_level = 0.0
+var game: Game
 var base_position = Vector2.ZERO
+
+# 从 game 获取水平面高度的便捷属性
+var water_level: float:
+	get:
+		if game != null:
+			return game.water_level
+		return -100.0  # 默认值
 
 func _ready():
 	# 记录初始位置作为基准点
@@ -54,6 +63,10 @@ func _ready():
 		cannon_target_angle = cannon_current_angle
 
 func _process(delta):
+	# 更新冷却计时器
+	if cooldown_timer > 0:
+		cooldown_timer -= delta
+	
 	# 更新浮动时间
 	float_time += delta * float_speed
 	# 计算基础上下浮动
@@ -82,7 +95,7 @@ func _process(delta):
 	tilt_angle += tilt_velocity * delta
 	
 	# 限制最大倾斜角度
-	tilt_angle = clamp(tilt_angle, -max_tilt, max_tilt)
+	tilt_angle = clamp(tilt_angle, -deg_to_rad(max_tilt), deg_to_rad(max_tilt))
 	
 	# 应用倾斜
 	rotation = tilt_angle
@@ -139,6 +152,10 @@ func _update_cannon_aim():
 	cannon.rotation = cannon_current_angle
 
 func _fire_cannon():
+	# 检查冷却时间
+	if cooldown_timer > 0:
+		return
+	
 	# 获取炮和子弹生成点
 	var cannon = %cannon
 	var bullet_spawn = %bullet_spawn
@@ -159,6 +176,9 @@ func _fire_cannon():
 	# 施加后座力（方向与发射方向相反）
 	apply_impact_vector(-fire_direction * recoil_force)
 	bullet_fire.emit(fire_direction)
+	
+	# 重置冷却计时器
+	cooldown_timer = fire_cooldown
 
 # 海浪冲击（内部使用）
 func _apply_wave():

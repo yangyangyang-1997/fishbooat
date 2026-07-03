@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://dne7w2by5imeh"]
 
+[ext_resource type="Script" uid="uid://djj3p6pkw1iqn" path="res://game/boat/boat.gd" id="1_jb02s"]
 [ext_resource type="Texture2D" uid="uid://b1c8076acqr2j" path="res://textures/boat.png" id="1_ru6rh"]
 [ext_resource type="Texture2D" uid="uid://b8i2npe68sr1r" path="res://textures/cannon.png" id="2_xqhs4"]
 
 [node name="boat" type="Node2D" unique_id=858611315]
+script = ExtResource("1_jb02s")
 
 [node name="sprite" type="Sprite2D" parent="." unique_id=385995659]
 position = Vector2(0, -48.000008)

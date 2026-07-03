@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://hpgqchmnbgs8"]
 
 [ext_resource type="PackedScene" uid="uid://dne7w2by5imeh" path="res://game/boat/boat.tscn" id="1_pds7s"]
+[ext_resource type="Script" uid="uid://8unype1pib0u" path="res://game/game.gd" id="1_qqjhb"]
 [ext_resource type="PackedScene" uid="uid://d0d30gjx3xl2g" path="res://fishes/fish.tscn" id="2_cqyub"]
 [ext_resource type="PackedScene" uid="uid://lepi4l2gvua1" path="res://monster/monster.tscn" id="3_jxsqw"]
 
 [node name="Game" type="Node2D" unique_id=1044281898]
+script = ExtResource("1_qqjhb")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=537822726]
 
@@ -16,6 +18,7 @@ offset_bottom = 341.0
 color = Color(0, 0.79, 0.63199997, 1)
 
 [node name="boat" parent="." unique_id=858611315 instance=ExtResource("1_pds7s")]
+unique_name_in_owner = true
 position = Vector2(-5, -103)
 
 [node name="monster" parent="." unique_id=1342003676 instance=ExtResource("3_jxsqw")]

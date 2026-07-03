@@ -15,9 +15,10 @@
 **Entry point:** `game/fish_scene.tscn` (uid://hpgqchmnbgs8) - set as main scene in project.godot
 
 **Key components:**
-- `game/boat/boat.gd` - Boat class (currently empty stub)
-  - Must expose `apply_impact()` or similar to handle external forces
-  - Should handle rotation/tilt physics while staying at fixed screen position
+- `game/boat/boat.gd` - Boat class with floating and tilt physics
+  - Exposes `apply_impact(strength)` and `apply_impact_vector(force)` for external impacts
+  - Auto-recovery from tilt using damped spring model
+  - Vertical bobbing animation + random wave disturbances
   - Cannon is child sprite at position (0, -62) with rotation
 - `fishes/fish.tscn` - Fish entities for catching
 - `monster/monster.tscn` - Entities that impact boat stability
@@ -67,11 +68,17 @@ godot project.godot
 - Scripts use `class_name` for type registration (e.g., `class_name Boat`)
 - Unique IDs in scenes used for node references - preserve these when editing .tscn files
 
+**GDScript typing rules:**
+- **Never use type inference syntax** (`:=`) - always use dynamic typing with `=`
+- Type inference can fail unpredictably, causing compilation issues
+- Write `var x = 0.0` not `var x := 0.0`
+- Explicit type annotations are OK: `var x: float = 0.0`
+
 ## Common Pitfalls
 
 1. **Don't move boat with physics** - boat should stay centered, rotate only for balance
 2. **Scene scrolling simulates movement** - adjust child positions or use ParallaxBackground, not boat position
-3. **Empty boat.gd script** - core gameplay not implemented yet, needs balance physics + impact interface
+3. **Boat vertical movement** - only vertical bobbing for floating effect, horizontal position stays fixed
 4. **Cannon rotation** - currently static at 1.164 radians, needs player input control
 5. **Editing .tscn directly** - prefer Godot Editor unless making bulk changes; preserve unique_id and uid references
 

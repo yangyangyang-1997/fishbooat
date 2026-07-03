@@ -20,6 +20,13 @@ config/icon="res://icon.svg"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[layer_names]
+
+2d_physics/layer_1="Default"
+2d_physics/layer_5="Boat"
+2d_physics/layer_6="MonsterBody"
+2d_physics/layer_10="MonsterAttackRange"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

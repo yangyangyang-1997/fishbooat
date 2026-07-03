@@ -4,15 +4,30 @@
 [ext_resource type="Texture2D" uid="uid://b7qci8vtaet5b" path="res://textures/monsters/placeholder.png" id="1_okp8s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gp7pn"]
-size = Vector2(154, 57)
+size = Vector2(107, 43)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7d0jg"]
+size = Vector2(130, 82)
 
 [node name="monster" type="CharacterBody2D" unique_id=1691408895]
+collision_layer = 32
+collision_mask = 17
 script = ExtResource("1_7d0jg")
 
 [node name="sprite" type="Sprite2D" parent="." unique_id=103638970]
-scale = Vector2(3, 3)
+scale = Vector2(2, 2)
 texture = ExtResource("1_okp8s")
 
 [node name="body_shape" type="CollisionShape2D" parent="." unique_id=712427768]
-position = Vector2(0, -5.5)
+unique_name_in_owner = true
+position = Vector2(2.5, -4.5)
 shape = SubResource("RectangleShape2D_gp7pn")
+
+[node name="attack_range" type="Area2D" parent="." unique_id=1748126781]
+unique_name_in_owner = true
+collision_layer = 512
+collision_mask = 16
+
+[node name="box" type="CollisionShape2D" parent="attack_range" unique_id=1920460590]
+position = Vector2(43, -10)
+shape = SubResource("RectangleShape2D_7d0jg")

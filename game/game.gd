@@ -10,11 +10,20 @@ func _enter_tree():
 	%boat.game = self
 
 func _ready():
+	# 设置所有怪物的 game 引用
+	_setup_monsters()
+	
 	# 连接船的 bullet_fire 信号到相机抖动
 	%boat.bullet_fire.connect(func(_fire_direction):
 		#camera.shake(camera_shake_strength)
 		camera.shake_ex(camera_shake_strength, 0.4, 6.0)
 	)
+
+# 设置所有怪物的 game 引用
+func _setup_monsters():
+	for child in get_children():
+		if child is Monster:
+			child.game = self
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.is_released():

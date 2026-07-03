@@ -7,7 +7,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gp7pn"]
 size = Vector2(198, 51)
 
-[node name="boat" type="Area2D" unique_id=896986051]
+[node name="boat" type="CharacterBody2D" unique_id=202241317]
+collision_layer = 16
+collision_mask = 32
 script = ExtResource("1_jb02s")
 bullet_speed = 550.0
 
@@ -26,6 +28,7 @@ texture = ExtResource("2_xqhs4")
 unique_name_in_owner = true
 position = Vector2(-33.333336, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1456723978]
+[node name="body" type="CollisionShape2D" parent="." unique_id=1456723978]
+unique_name_in_owner = true
 position = Vector2(0, -23.5)
 shape = SubResource("RectangleShape2D_gp7pn")

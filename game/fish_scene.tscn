@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dne7w2by5imeh" path="res://game/boat/boat.tscn" id="1_pds7s"]
 [ext_resource type="Script" uid="uid://8unype1pib0u" path="res://game/game.gd" id="1_qqjhb"]
 [ext_resource type="PackedScene" uid="uid://d0d30gjx3xl2g" path="res://fishes/fish.tscn" id="2_cqyub"]
-[ext_resource type="PackedScene" uid="uid://lepi4l2gvua1" path="res://monster/monster.tscn" id="3_jxsqw"]
+[ext_resource type="PackedScene" uid="uid://lepi4l2gvua1" path="res://monsters/monster.tscn" id="3_jxsqw"]
 
 [sub_resource type="GDScript" id="GDScript_jb02s"]
 resource_name = "GameCamera"

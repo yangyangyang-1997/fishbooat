@@ -4,7 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://b1c8076acqr2j" path="res://textures/boat.png" id="1_ru6rh"]
 [ext_resource type="Texture2D" uid="uid://b8i2npe68sr1r" path="res://textures/cannon.png" id="2_xqhs4"]
 
-[node name="boat" type="Node2D" unique_id=858611315]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gp7pn"]
+size = Vector2(198, 51)
+
+[node name="boat" type="Area2D" unique_id=896986051]
 script = ExtResource("1_jb02s")
 bullet_speed = 550.0
 
@@ -22,3 +25,7 @@ texture = ExtResource("2_xqhs4")
 [node name="bullet_spawn" type="Node2D" parent="cannon" unique_id=2083075825]
 unique_name_in_owner = true
 position = Vector2(-33.333336, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1456723978]
+position = Vector2(0, -23.5)
+shape = SubResource("RectangleShape2D_gp7pn")

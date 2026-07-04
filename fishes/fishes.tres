@@ -42,4 +42,4 @@ func _prepare():
 
 [resource]
 script = SubResource("GDScript_1b8ss")
-fishes = Array[String](["hailuyu:10", "xiaochouyu:2"])
+fishes = Array[String](["chujiyu:12", "hailuyu:10", "xiaochouyu:2"])

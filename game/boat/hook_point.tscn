@@ -34,6 +34,12 @@ var captured :Node2D
 @onready var mount := %mount
 @onready var chain := %chain
 
+
+var impacted_velocity :float
+@export var impacted_velocity_damping :float= 80
+func apply_impact(impact: float):
+	impacted_velocity = impact
+
 var _touching_object : Node
 func _ready():
 	hook.body_entered.connect(_on_touch_body)
@@ -65,6 +71,12 @@ func _runtime_process(delta: float):
 			angle -= hook_turn_speed * delta
 		if Input.is_action_just_pressed(\"hook_shoot\"):
 			shoot()
+	if impacted_velocity != 0:
+		angle += impacted_velocity * delta
+		var old_vel := impacted_velocity
+		impacted_velocity -= impacted_velocity_damping * delta
+		if old_vel * impacted_velocity <= 0:
+			impacted_velocity = 0
 
 ## 所有支持捕捉的，都需要：
 ## A) 有 capture(mount: Node2D) 函数
@@ -119,6 +131,7 @@ script = SubResource("GDScript_sff1j")
 hook_shoot_acc = 0.4
 hook_shoot_max_speed = 0.8
 hook_shoot_max_range = 380.0
+impacted_velocity_damping = 0.5
 
 [node name="chain" type="Line2D" parent="." unique_id=393246927]
 unique_name_in_owner = true

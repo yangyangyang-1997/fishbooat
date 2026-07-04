@@ -14,6 +14,8 @@ var hp : int:
 		var before := hp
 		hp = clamp(v, 0, hp_max)
 		hp_changed.emit(before, hp)
+		if hp == 0:
+			call_deferred("die")
 
 var hp_percent :float:
 	get:
@@ -111,13 +113,18 @@ func _on_object_captured(object: Node2D):
 	elif object.is_in_group("Bullet"):
 		bullet_captured.emit(object)
 
+var disable_simulation := false
+var disable_fire := false
+var disable_hook := false
+var dead := false
+
 func _process(delta):
 	# 更新冷却计时器
 	if cooldown_timer > 0:
 		cooldown_timer -= delta
-	_update_simulation(delta)
-	_update_cannon_aim()
-	if Input.is_action_just_pressed("hook_switch"):
+	if not disable_simulation: _update_simulation(delta)
+	if not disable_fire: _update_cannon_aim()
+	if not disable_hook and Input.is_action_just_pressed("hook_switch"):
 		var left := %hook_left
 		var right := %hook_right
 		if left.activating or right.activating:
@@ -165,7 +172,7 @@ func _update_simulation(delta: float):
 
 func _input(event):
 	# 检测鼠标左键点击发射
-	if event is InputEventMouseButton:
+	if not disable_fire and event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			_fire_cannon()
 
@@ -243,6 +250,31 @@ func _fire_cannon():
 func _apply_wave():
 	var wave_direction = randf_range(-1.0, 1.0)
 	apply_impact(wave_direction * wave_strength)
+
+func die():
+	disable_simulation = true
+	disable_fire = true
+	disable_hook = true
+	dead = true
+	
+	%hook_left.toggle_activate(false)
+	%hook_right.toggle_activate(false)
+	
+	var twn := create_tween()
+	twn.tween_property(self, "global_position",\
+		global_position + Vector2(0, -100), 0.3).set_ease(Tween.EASE_OUT)
+	twn.tween_property(self, "global_position",\
+		global_position, 0.3).set_ease(Tween.EASE_IN)
+	var twn_rotate := create_tween()
+	twn_rotate.tween_property(self, "rotation_degrees", 180, 0.6)
+
+	await twn.finished
+	while true:
+		var delta := get_process_delta_time()
+		global_position.y += 10 * delta
+		if global_position.y > 200:
+			break
+		await get_tree().process_frame
 
 # 公开API：施加冲击
 # strength: 冲击强度，正值向右倾斜，负值向左倾斜

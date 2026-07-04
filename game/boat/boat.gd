@@ -37,7 +37,7 @@ var wave_timer := 0.0
 var wave_interval_min := 3.0  # 最小海浪间隔
 var wave_interval_max := 8.0  # 最大海浪间隔
 var next_wave_time := 5.0  # 下次海浪时间
-@export var wave_strength = 0.5  # 海浪冲击强度
+@export var wave_strength :float= 0.5  # 海浪冲击强度
 
 var game: Game
 var base_position = Vector2.ZERO
@@ -61,12 +61,28 @@ func _ready():
 	if cannon != null:
 		cannon_current_angle = cannon.rotation
 		cannon_target_angle = cannon_current_angle
+	
+	await get_tree().create_timer(0.8).timeout
+	%hook_left.toggle_activate(true)
 
 func _process(delta):
 	# 更新冷却计时器
 	if cooldown_timer > 0:
 		cooldown_timer -= delta
-	
+	_update_simulation(delta)
+	_update_cannon_aim()
+	if Input.is_action_just_pressed("hook_switch"):
+		var left := %hook_left
+		var right := %hook_right
+		if left.activating or right.activating:
+			if left.activating:
+				left.toggle_activate(false)
+				right.toggle_activate(true)
+			else:
+				right.toggle_activate(false)
+				left.toggle_activate(true)
+
+func _update_simulation(delta: float):
 	# 更新浮动时间
 	float_time += delta * float_speed
 	# 计算基础上下浮动
@@ -99,9 +115,6 @@ func _process(delta):
 	
 	# 应用倾斜
 	rotation = tilt_angle
-	
-	# 更新加农炮瞄准
-	_update_cannon_aim()
 
 func _input(event):
 	# 检测鼠标左键点击发射

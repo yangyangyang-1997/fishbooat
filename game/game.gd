@@ -67,10 +67,10 @@ func _spawn_monster():
 	
 	# 设置 y 坐标到水平线
 	monster.global_position.y = water_level
-
-func _unhandled_input(event):
-	if event is InputEventKey and event.is_released():
-		if event.keycode == KEY_A:
-			%boat.apply_impact_vector(Vector2(-1, 1))
-		elif event.keycode == KEY_D:
-			%boat.apply_impact_vector(Vector2(1, 1))
+#
+#func _unhandled_input(event):
+	#if event is InputEventKey and event.is_released():
+		#if event.keycode == KEY_A:
+			#%boat.apply_impact_vector(Vector2(-1, 1))
+		#elif event.keycode == KEY_D:
+			#%boat.apply_impact_vector(Vector2(1, 1))

@@ -74,7 +74,9 @@ position = Vector2(0, -23.5)
 shape = SubResource("RectangleShape2D_gp7pn")
 
 [node name="hook_left" parent="." unique_id=8649758 instance=ExtResource("4_pdqh5")]
+unique_name_in_owner = true
 position = Vector2(-45, 0)
 
 [node name="hook_right" parent="." unique_id=1147037451 instance=ExtResource("4_pdqh5")]
+unique_name_in_owner = true
 position = Vector2(45, 0)

@@ -4,8 +4,42 @@
 script/source = "extends Resource
 
 @export var fishes : Array[String]
+
+func pick_random() -> String:
+	if baked.size() != fishes.size():
+		_prepare()
+	var r := randi() % total_weight
+	for fish in baked:
+		r -= fish.weight
+		if r <= 0:
+			return fish.name
+	return baked[baked.size()-1].name
+
+class FishConfig:
+	var weight : int
+	var name : String
+var baked : Array[FishConfig]
+var total_weight : int
+
+func _prepare():
+	baked.clear()
+	total_weight = 0
+	for f in fishes:
+		var elems := f.split(\":\")
+		var fish = FishConfig.new()
+		if elems.size() == 2:
+			fish.name = elems[0]
+			fish.weight = int(elems[1])
+		else:
+			fish.name = f
+			fish.weight = 10
+		baked.append(fish)
+		total_weight += fish.weight
+	baked.sort_custom(func(a,b):
+		return a.weight < b.weight
+	)
 "
 
 [resource]
 script = SubResource("GDScript_1b8ss")
-fishes = Array[String](["hailuyu", "xiaochouyu"])
+fishes = Array[String](["hailuyu:10", "xiaochouyu:2"])

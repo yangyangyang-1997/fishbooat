@@ -1,8 +1,7 @@
 extends RigidBody2D
 class_name Fish
 
-## 出现的权重
-@export var weighted := 100
+@export var money := 10
 
 # 移动参数
 @export var pulse_distance = 50.0  # 每次脉冲移动的距离（像素）

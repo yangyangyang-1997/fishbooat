@@ -7,6 +7,9 @@ resource_name = "Hook"
 script/source = "@tool
 extends Node2D
 
+## 参数中的物体会在这一帧销毁
+signal captured_object_on_board(object: Node2D)
+
 @export var length := 0.0
 @export var angle := 0.0 : # rad
 	get:
@@ -90,6 +93,7 @@ func shoot():
 	velocity = 0.0
 	if captured != null:
 		captured.on_board()
+		captured_object_on_board.emit(captured)
 		captured.call_deferred(\"queue_free\")
 	_shooted = false
 	captured = null

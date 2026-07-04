@@ -2,6 +2,9 @@ extends Node2D
 class_name Boat
 
 signal bullet_fire(global_direction: Vector2)
+signal fish_captured(fish: Fish)
+signal bullet_captured(bullet: Bullet)
+#signal bomb_captured(bullet: Bullet)
 
 # 加农炮参数
 @export var bullet_speed := 500.0  # 子弹初速度
@@ -64,6 +67,14 @@ func _ready():
 	
 	await get_tree().create_timer(0.8).timeout
 	%hook_left.toggle_activate(true)
+	%hook_left.captured_object_on_board.connect(_on_object_captured)
+	%hook_right.captured_object_on_board.connect(_on_object_captured)
+
+func _on_object_captured(object: Node2D):
+	if object.is_in_group("Fish"):
+		fish_captured.emit(object)
+	elif object.is_in_group("Bullet"):
+		bullet_captured.emit(object)
 
 func _process(delta):
 	# 更新冷却计时器

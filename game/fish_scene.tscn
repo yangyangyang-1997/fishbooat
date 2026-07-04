@@ -79,7 +79,10 @@ size = Vector2(200, 200)
 [node name="Game" type="Node2D" unique_id=1044281898]
 texture_filter = 1
 script = ExtResource("1_qqjhb")
+water_level = null
 camera_shake_strength = 2.0
+monster_spawn_interval = null
+monster_spawn_distance = null
 
 [node name="camera" type="Camera2D" parent="." unique_id=537822726]
 unique_name_in_owner = true

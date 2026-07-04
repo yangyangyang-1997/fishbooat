@@ -1,6 +1,9 @@
 extends Node
 class_name Game
 
+var total_money :int
+signal get_money(increase: int, total_after_increase: int)
+
 # 移动方向枚举
 enum Direction {
 	LEFT = -1,
@@ -9,12 +12,12 @@ enum Direction {
 
 @onready var camera = %camera
 
-@export var water_level = -100.0
-@export var camera_shake_strength = 5.0  # 开火时相机抖动强度
+@export var water_level := -100.0
+@export var camera_shake_strength := 5.0  # 开火时相机抖动强度
 
 # 怪物生成参数
-@export var monster_spawn_interval = 5.0  # 怪物生成间隔（秒）
-@export var monster_spawn_distance = 600.0  # 生成距离（船两侧的距离）
+@export var monster_spawn_interval := 5.0  # 怪物生成间隔（秒）
+@export var monster_spawn_distance := 600.0  # 生成距离（船两侧的距离）
 var _monster_scene = preload("res://monsters/monster.tscn")
 var _spawn_timer = 0.0
 
@@ -24,11 +27,16 @@ func _enter_tree():
 func _ready():
 	# 设置所有怪物的 game 引用
 	_setup_monsters()
-	
 	# 连接船的 bullet_fire 信号到相机抖动
 	%boat.bullet_fire.connect(func(_fire_direction):
-		#camera.shake(camera_shake_strength)
 		camera.shake_ex(camera_shake_strength, 0.4, 6.0)
+	)
+	%boat.fish_captured.connect(func(fish: Fish):
+		print("get money: ", fish.money)
+		total_money += fish.money
+		get_money.emit(fish.money, total_money)
+		var hud := GameHud.instance
+		hud.set_money(total_money)
 	)
 
 func _process(delta):

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://d10u67jbgr6uj"]
 
 [ext_resource type="Texture2D" uid="uid://ds6044mpn01pr" path="res://textures/parrot.png" id="1_d8ggh"]
+[ext_resource type="Script" uid="uid://bu24iascpid5x" path="res://game/hud.gd" id="1_wwmge"]
 [ext_resource type="Texture2D" uid="uid://d1iouwxf7wegq" path="res://textures/parrot_dialogue.png" id="2_448qv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d8ggh"]
@@ -10,6 +11,76 @@ texture_margin_top = 24.0
 texture_margin_right = 32.0
 texture_margin_bottom = 32.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_wwmge"]
+font_size = 38
+
+[sub_resource type="Animation" id="Animation_wwmge"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("money:offset_transform_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("money:offset_transform_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_q6xfg"]
+resource_name = "get_money"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("money:offset_transform_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.14849235, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.255, 1.255), Vector2(1.255, 1.255), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("money:offset_transform_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.16666667, 0.23333333, 0.30114806, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.06981317007977318, 0.08726646259971647, -0.03490658503988659, 0.03490658503988659, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wwmge"]
+_data = {
+&"RESET": SubResource("Animation_wwmge"),
+&"get_money": SubResource("Animation_q6xfg")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_q6xfg"]
+font_size = 22
+font_color = Color(0.7166667, 1, 0, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Hud" type="Control" unique_id=789401770]
 layout_mode = 3
 anchors_preset = 15
@@ -17,6 +88,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_wwmge")
 
 [node name="captain" type="TextureRect" parent="." unique_id=906036250]
 layout_mode = 0
@@ -48,14 +120,33 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -109.0
+offset_left = -176.0
 offset_top = 19.0
 offset_right = -40.0
-offset_bottom = 68.0
+offset_bottom = 48.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 20
-text = "能赚到：
-￥1900！"
+text = "收入："
+
+[node name="money" type="Label" parent="." unique_id=316900359]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -174.0
+offset_top = 57.0
+offset_right = -16.0
+offset_bottom = 101.0
+grow_horizontal = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+text = "0"
+label_settings = SubResource("LabelSettings_wwmge")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="money" unique_id=1457173859]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_wwmge")
 
 [node name="Tips" type="RichTextLabel" parent="." unique_id=150515682]
 layout_mode = 1
@@ -79,3 +170,17 @@ A:
 [/color]
 "
 fit_content = true
+
+[node name="boat_state" type="Label" parent="." unique_id=1634543424]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 462.0
+offset_top = 7.0
+offset_right = -462.0
+offset_bottom = 38.0
+grow_horizontal = 2
+text = "船况良好"
+label_settings = SubResource("LabelSettings_q6xfg")
+horizontal_alignment = 1

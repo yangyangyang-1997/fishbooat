@@ -41,7 +41,6 @@ func _process(delta):
 			else:
 				_current_batch = randi() % (generate_batch_max - generate_batch_min) + generate_batch_min
 			generate_fishes()
-			#print(\"Next fish generation batch: %s after %s seconds.\" % [_current_batch, _current_interval])
 
 var _random_points: Array[Vector2] = []
 
@@ -63,8 +62,7 @@ func generate_fishes():
 		var p = _random_points[randi() % _random_points.size()]
 		#print(\"generate at \", p)
 		# 你后面要做的 spawn
-		var fish_list :Array[String]= load(\"res://fishes/fishes.tres\").fishes
-		var fish_name :String= fish_list.pick_random()
+		var fish_name :String= load(\"res://fishes/fishes.tres\").pick_random()
 		var fish :Node2D= load(\"res://fishes/%s.tscn\" % fish_name).instantiate()
 		get_parent().add_child(fish)
 		fish.global_position = to_global(p)

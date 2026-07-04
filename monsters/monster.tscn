@@ -136,6 +136,7 @@ lock_rotation = true
 linear_damp = 2.0
 script = ExtResource("1_7d0jg")
 pulse_interval = 1.5
+charge_impact_force = 8.0
 
 [node name="flip" type="Node2D" parent="." unique_id=304544150]
 unique_name_in_owner = true

@@ -29,7 +29,8 @@ func _ready():
 	_setup_monsters()
 	# 连接船的 bullet_fire 信号到相机抖动
 	%boat.bullet_fire.connect(func(_fire_direction):
-		camera.shake_ex(camera_shake_strength, 0.4, 6.0)
+		var extra :float= clamp(%boat.impact_fac_with_hp, 0, 1) * 4
+		camera.shake_ex(2.5 + extra, 0.3 + %boat.impact_fac_with_hp * 0.2, 1.0)
 	)
 	%boat.fish_captured.connect(func(fish: Fish):
 		print("get money: ", fish.money)
@@ -39,16 +40,18 @@ func _ready():
 		hud.set_money(total_money)
 	)
 	%boat.hp_changed.connect(func(before:int, after:int):
+		if before > after:
+			camera.shake_ex(12.0, 0.6, 2.0)
 		var hud := GameHud.instance
 		print("hp: ", after)
 		var percent :float= %boat.hp_percent
-		if percent < 0.1:
+		if percent < 0.2:
 			hud.set_state("我心永恒~", Color(1,0.2,0.3))
-		elif percent < 0.3:
+		elif percent < 0.4:
 			hud.set_state("船况很差！", Color(0.8,0.6,0.1))
-		elif percent < 0.6:
-			hud.set_state("船况不妙！", Color(0.6,0.6,0.1))
 		elif percent < 0.8:
+			hud.set_state("船况不妙！", Color(0.6,0.6,0.1))
+		elif percent < 0.95:
 			hud.set_state("船况良好！", Color(0.5,0.9,0.1))
 		else:
 			hud.set_state("船况完美！", Color(0.2,1,0.5))

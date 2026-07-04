@@ -4,7 +4,6 @@ class_name Boat
 signal bullet_fire(global_direction: Vector2)
 signal fish_captured(fish: Fish)
 signal bullet_captured(bullet: Bullet)
-#signal bomb_captured(bullet: Bullet)
 signal hp_changed(before: int, after: int)
 
 @export var hp_max := 1000
@@ -19,6 +18,18 @@ var hp : int:
 var hp_percent :float:
 	get:
 		return float(hp)/float(%boat.hp_max)
+
+## 满血时为 0.3，0.3血时为1。[0.1 ~ 1.0]
+var impact_fac_with_hp :float:
+	get:
+		if hp_percent < 0.1:
+			return 10
+		return (1 - clamp(hp_percent, 0.5, 1.0)) * 0.9 + 0.1
+
+## 满血时为 0.2，0.4血时为1。[0.2 ~ 1.0]
+var max_tilt_fac_with_hp :float:
+	get:
+		return (1 - clamp(hp_percent, 0.5, 1.0)) * 0.8 + 0.2
 
 # 加农炮参数
 @export var bullet_speed := 500.0  # 子弹初速度
@@ -85,6 +96,11 @@ func _ready():
 	%hook_left.captured_object_on_board.connect(_on_object_captured)
 	%hook_right.captured_object_on_board.connect(_on_object_captured)
 
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.keycode == KEY_F1:
+			hp -= 100
+
 func _on_object_captured(object: Node2D):
 	if object.is_in_group("Fish"):
 		fish_captured.emit(object)
@@ -141,7 +157,8 @@ func _update_simulation(delta: float):
 	tilt_angle += tilt_velocity * delta
 	
 	# 限制最大倾斜角度
-	tilt_angle = clamp(tilt_angle, -deg_to_rad(max_tilt), deg_to_rad(max_tilt))
+	var tilt_limit := deg_to_rad(max_tilt * max_tilt_fac_with_hp)
+	tilt_angle = clamp(tilt_angle, -tilt_limit, tilt_limit)
 	
 	# 应用倾斜
 	rotation = tilt_angle
@@ -230,7 +247,7 @@ func _apply_wave():
 # 公开API：施加冲击
 # strength: 冲击强度，正值向右倾斜，负值向左倾斜
 func apply_impact(strength):
-	tilt_velocity += strength
+	tilt_velocity += strength * impact_fac_with_hp
 
 # 公开API：施加冲击（向量版本）
 # force: 二维力向量，x分量影响倾斜，y分量影响垂直浮动
@@ -239,7 +256,7 @@ func apply_impact_vector(force):
 	apply_impact(force.x)
 	# y分量影响垂直浮动
 	# 正值向下推，负值向上推
-	float_velocity += force.y * float_impact_scale
+	float_velocity += force.y * float_impact_scale * impact_fac_with_hp
 
 # 公开API：重置船的状态
 func reset_boat():

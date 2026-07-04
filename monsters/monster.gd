@@ -126,6 +126,7 @@ func _perform_attack():
 
 	if _boat and _boat.has_method("apply_impact"):
 		_boat.apply_impact(move_direction * 1.0)
+		await get_tree().create_timer(0.15).timeout
 		_boat.hp -= damage
 
 	await get_tree().create_timer(0.5).timeout

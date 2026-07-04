@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbh20jc38v0wk"
-path="res://.godot/imported/xiaochouyu2.png-b60f5c86a6c06231514feb7410e136e5.ctex"
+uid="uid://dttbjhdjq7a36"
+path="res://.godot/imported/chujiyu.png-461f5d668b86fb9c6d222f3e619f4613.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/fishes/xiaochouyu/xiaochouyu2.png"
-dest_files=["res://.godot/imported/xiaochouyu2.png-b60f5c86a6c06231514feb7410e136e5.ctex"]
+source_file="res://textures/fishes/chujiyu.png"
+dest_files=["res://.godot/imported/chujiyu.png-461f5d668b86fb9c6d222f3e619f4613.ctex"]
 
 [params]
 

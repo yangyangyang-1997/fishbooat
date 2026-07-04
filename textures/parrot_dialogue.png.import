@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qxiy2qwcoyqf"
-path="res://.godot/imported/xiaochouyu4.png-3aa23e5fc5020dc51e42dd64e9cc4ad7.ctex"
+uid="uid://d1iouwxf7wegq"
+path="res://.godot/imported/parrot_dialogue.png-b0fe5f72eedd301ae56daae7119bb5d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/fishes/xiaochouyu/xiaochouyu4.png"
-dest_files=["res://.godot/imported/xiaochouyu4.png-3aa23e5fc5020dc51e42dd64e9cc4ad7.ctex"]
+source_file="res://textures/parrot_dialogue.png"
+dest_files=["res://.godot/imported/parrot_dialogue.png-b0fe5f72eedd301ae56daae7119bb5d6.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgtmkvudyjwiw"
-path="res://.godot/imported/chujiyu3.png-da089201c2d72523f8a63a9f57ad9b1c.ctex"
+uid="uid://c34gcwvxjckj4"
+path="res://.godot/imported/hailuyu.png-0a7c25ecc9092fbe2ca26fe229b9253c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/fishes/chujiyu/chujiyu3.png"
-dest_files=["res://.godot/imported/chujiyu3.png-da089201c2d72523f8a63a9f57ad9b1c.ctex"]
+source_file="res://textures/fishes/hailuyu.png"
+dest_files=["res://.godot/imported/hailuyu.png-0a7c25ecc9092fbe2ca26fe229b9253c.ctex"]
 
 [params]
 

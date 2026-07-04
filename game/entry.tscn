@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c1023foiahab4"]
+
+[ext_resource type="PackedScene" uid="uid://hpgqchmnbgs8" path="res://game/fish_scene.tscn" id="1_mob4i"]
+[ext_resource type="PackedScene" uid="uid://d10u67jbgr6uj" path="res://game/hud.tscn" id="2_id5iw"]
+
+[node name="Entry" type="Node" unique_id=1658987030]
+
+[node name="Game" parent="." unique_id=1044281898 instance=ExtResource("1_mob4i")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=116790370]
+
+[node name="Hud" parent="CanvasLayer" unique_id=789401770 instance=ExtResource("2_id5iw")]

@@ -176,9 +176,10 @@ func _fire_cannon():
 	# 施加后座力（方向与发射方向相反）
 	apply_impact_vector(-fire_direction * recoil_force)
 	bullet_fire.emit(fire_direction)
-	
 	# 重置冷却计时器
 	cooldown_timer = fire_cooldown
+
+	%particle_on_fire.restart()
 
 # 海浪冲击（内部使用）
 func _apply_wave():

@@ -4,6 +4,34 @@
 [ext_resource type="Texture2D" uid="uid://b1c8076acqr2j" path="res://textures/boat.png" id="1_ru6rh"]
 [ext_resource type="Texture2D" uid="uid://b8i2npe68sr1r" path="res://textures/cannon.png" id="2_xqhs4"]
 
+[sub_resource type="Gradient" id="Gradient_jb02s"]
+offsets = PackedFloat32Array(0, 0.13157895, 0.19635628, 0.4271255, 0.8036437, 1)
+colors = PackedColorArray(0.94, 0.6893333, 0, 1, 0.79, 0.14220001, 0.18538666, 0.9843137, 0.64, 0.12799999, 0.14506663, 0.7254902, 0.14, 0.074153334, 0.023800002, 0.78039217, 0.14285713, 0.083281584, 0.037723802, 0.8763773, 0.17, 0.17, 0.17, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jb02s"]
+gradient = SubResource("Gradient_jb02s")
+
+[sub_resource type="Curve" id="Curve_jb02s"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 0.4130435), 0.0, 1.1705683, 0, 0, Vector2(0.6964286, 2.5869565), 0.0, 0.0, 0, 0, Vector2(1, 0.89130425), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_jb02s"]
+curve = SubResource("Curve_jb02s")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gp7pn"]
+particle_flag_disable_z = true
+angle_min = -179.99998
+angle_max = 180.00002
+spread = 180.0
+initial_velocity_min = 40.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 0, 0)
+scale_min = 35.0
+scale_max = 45.0
+scale_over_velocity_curve = SubResource("CurveTexture_jb02s")
+color_ramp = SubResource("GradientTexture1D_jb02s")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gp7pn"]
 size = Vector2(198, 51)
 
@@ -29,7 +57,23 @@ texture = ExtResource("2_xqhs4")
 unique_name_in_owner = true
 position = Vector2(-33.333336, 0)
 
+[node name="particle_on_fire" type="GPUParticles2D" parent="cannon/bullet_spawn" unique_id=1219806042]
+unique_name_in_owner = true
+emitting = false
+amount = 14
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 0.4
+process_material = SubResource("ParticleProcessMaterial_gp7pn")
+
 [node name="body" type="CollisionShape2D" parent="." unique_id=1456723978]
 unique_name_in_owner = true
 position = Vector2(0, -23.5)
 shape = SubResource("RectangleShape2D_gp7pn")
+
+[node name="hook_left" type="Node2D" parent="." unique_id=360289930]
+position = Vector2(-45, 0)
+
+[node name="hook_right" type="Node2D" parent="." unique_id=1755786988]
+position = Vector2(40, 0)

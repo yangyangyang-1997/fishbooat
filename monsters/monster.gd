@@ -1,12 +1,6 @@
 extends RigidBody2D
 class_name Monster
 
-# 移动方向枚举
-enum Direction {
-	LEFT = -1,
-	RIGHT = 1
-}
-
 # 移动参数
 @export var pulse_distance = 50.0  # 每次脉冲移动的距离（像素）
 @export var pulse_interval = 1.0  # 脉冲间隔（秒）
@@ -26,7 +20,7 @@ var game: Game
 var _boat: Node = null
 
 # 移动方向（创建时设置，之后不再改变）
-var move_direction = Direction.RIGHT
+var move_direction = Game.Direction.RIGHT
 
 # 内部状态
 var _is_attacking = false  # 是否正在攻击
@@ -55,16 +49,15 @@ func _ready():
 	%attack_range.body_entered.connect(_on_attack_range_body_entered)
 
 # 设置移动方向（在生成时调用）
-func set_direction(direction: Direction):
+func set_direction(direction: Game.Direction):
 	move_direction = direction
 	# 根据方向翻转精灵（只翻转视觉节点，不影响物理）
-	for c in get_children():
-		if direction == Direction.LEFT:
-			$flip.scale.x = -1
-			%body_shape.scale.x = -1
-			%attack_range.scale.x = -1
-		else:
-			scale = Vector2.ONE  # 向右移动，正常朝向右
+	if direction == Game.Direction.LEFT:
+		%flip.scale.x = -1
+		%body_shape.scale.x = -1
+		%attack_range.scale.x = -1
+	else:
+		scale = Vector2.ONE  # 向右移动，正常朝向右
 	
 	print("Monster ready, mass: ", mass, " gravity_scale: ", gravity_scale)
 
@@ -72,7 +65,7 @@ func _physics_process(delta):
 	# 更新脉冲计时器（追击状态）
 	if not _is_attacking:
 		_pulse_timer += delta
-		if _pulse_timer >= pulse_interval:
+		if _pulse_timer >= pulse_interval and not _is_dead:
 			_apply_pulse()
 			_pulse_timer = 0.0
 

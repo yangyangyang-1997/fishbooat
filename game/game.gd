@@ -1,6 +1,12 @@
 extends Node
 class_name Game
 
+# 移动方向枚举
+enum Direction {
+	LEFT = -1,
+	RIGHT = 1
+}
+
 @onready var camera = %camera
 
 @export var water_level = -100.0
@@ -53,11 +59,11 @@ func _spawn_monster():
 	if spawn_on_left:
 		# 左侧生成，向右移动
 		monster.global_position.x = boat_x - monster_spawn_distance
-		monster.set_direction(Monster.Direction.RIGHT)
+		monster.set_direction(Game.Direction.RIGHT)
 	else:
 		# 右侧生成，向左移动
 		monster.global_position.x = boat_x + monster_spawn_distance
-		monster.set_direction(Monster.Direction.LEFT)
+		monster.set_direction(Game.Direction.LEFT)
 	
 	# 设置 y 坐标到水平线
 	monster.global_position.y = water_level

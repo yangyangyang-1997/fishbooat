@@ -1,8 +1,26 @@
 [gd_scene format=3 uid="uid://d0d30gjx3xl2g"]
 
+[ext_resource type="Script" uid="uid://v04pjgqcjayx" path="res://fishes/fish.gd" id="1_1b8ss"]
 [ext_resource type="Texture2D" uid="uid://dclhhy02rtd5w" path="res://textures/fishes/placeholder.png" id="1_6uk8b"]
 
-[node name="placeholder" type="Node2D" unique_id=1268917534]
+[sub_resource type="CircleShape2D" id="CircleShape2D_gp7pn"]
+radius = 27.0
 
-[node name="sprite" type="Sprite2D" parent="." unique_id=348846355]
+[node name="fish" type="RigidBody2D" unique_id=74625295]
+gravity_scale = 0.0
+script = ExtResource("1_1b8ss")
+pulse_distance = 20.0
+pulse_interval = 2.0
+pulse_force = 100.0
+
+[node name="art" type="Node2D" parent="." unique_id=2035029804]
+unique_name_in_owner = true
+
+[node name="sprite" type="Sprite2D" parent="art" unique_id=348846355]
 texture = ExtResource("1_6uk8b")
+
+[node name="body" type="CollisionShape2D" parent="." unique_id=1405480552]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_gp7pn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1700427584]

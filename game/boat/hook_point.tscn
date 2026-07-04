@@ -52,7 +52,7 @@ func _process(delta):
 
 func _draw():
 	if Engine.is_editor_hint():
-		draw_circle(%root.position, hook_shoot_max_range, Color(0,0.2,0.8, 0.3))
+		draw_arc(%root.position, hook_shoot_max_range, 0, PI, 32, Color(0.7,0.1,0.8, 0.9))
 
 func _runtime_process(delta: float):
 	if !_shooted && activating:
@@ -105,7 +105,7 @@ func toggle_hook(on: bool):
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sff1j"]
-radius = 26.019224
+radius = 7.071068
 
 [node name="hook_point" type="Node2D" unique_id=8649758]
 script = SubResource("GDScript_sff1j")

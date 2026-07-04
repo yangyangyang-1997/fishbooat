@@ -32,8 +32,14 @@ func _process(delta):
 			_current_interval -= delta
 		elif _current_interval <= 0.0:
 			# generate
-			_current_interval = randf() * (generate_batch_max - generate_batch_min) + generate_batch_min
-			_current_batch = randi() % (generate_batch_max - generate_batch_min) + generate_batch_min
+			if generate_interval_max <= generate_interval_min:
+				_current_interval = generate_interval_min
+			else:
+				_current_interval = randf() * (generate_interval_max - generate_interval_min) + generate_interval_min
+			if generate_batch_max <= generate_batch_min:
+				_current_batch = generate_batch_min
+			else:
+				_current_batch = randi() % (generate_batch_max - generate_batch_min) + generate_batch_min
 			generate_fishes()
 			#print(\"Next fish generation batch: %s after %s seconds.\" % [_current_batch, _current_interval])
 

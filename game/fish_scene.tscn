@@ -73,10 +73,8 @@ func shake_ex(strength: float, duration: float = 0.0, decay: float = 5.0):
 size = Vector2(64, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nim6f"]
-size = Vector2(200, 360)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_73g8p"]
-size = Vector2(200, 360)
+resource_name = "FishBox"
+size = Vector2(200, 200)
 
 [node name="Game" type="Node2D" unique_id=1044281898]
 texture_filter = 1
@@ -129,15 +127,32 @@ texture = ExtResource("5_d4gvw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="box" unique_id=1921870469]
 shape = SubResource("RectangleShape2D_v7lu7")
 
-[node name="fish_generater_left" parent="." unique_id=1496453105 instance=ExtResource("6_v7lu7")]
-position = Vector2(-737, 134)
+[node name="fish_emitter_left_top" parent="." unique_id=1743444498 instance=ExtResource("6_v7lu7")]
+position = Vector2(-737, 75)
 fish_direction = 1
+generate_interval_min = 4.0
+generate_interval_max = 5.0
+generate_batch_max = 1
 shape = SubResource("RectangleShape2D_nim6f")
 
-[node name="fish_generater_right" parent="." unique_id=872557581 instance=ExtResource("6_v7lu7")]
-position = Vector2(742, 135)
+[node name="fish_emitter_right_top" parent="." unique_id=665948640 instance=ExtResource("6_v7lu7")]
+position = Vector2(742, 75)
 generate_interval_min = 4.0
-generate_interval_max = 5.5
+generate_interval_max = 5.0
+generate_batch_max = 1
+shape = SubResource("RectangleShape2D_nim6f")
+
+[node name="fish_emitter_left_bottom" parent="." unique_id=1496453105 instance=ExtResource("6_v7lu7")]
+position = Vector2(-737, 198)
+fish_direction = 1
+generate_interval_min = 5.0
+generate_interval_max = 6.0
 generate_batch_min = 2
-generate_batch_max = 4
-shape = SubResource("RectangleShape2D_73g8p")
+shape = SubResource("RectangleShape2D_nim6f")
+
+[node name="fish_emitter_right_bottom" parent="." unique_id=872557581 instance=ExtResource("6_v7lu7")]
+position = Vector2(742, 198)
+generate_interval_min = 5.0
+generate_interval_max = 6.0
+generate_batch_min = 2
+shape = SubResource("RectangleShape2D_nim6f")

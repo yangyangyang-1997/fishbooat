@@ -86,10 +86,10 @@ unique_name_in_owner = true
 script = SubResource("GDScript_jb02s")
 
 [node name="sky" type="ColorRect" parent="." unique_id=842123220]
-offset_left = -592.0
-offset_top = -356.0
-offset_right = 595.0
-offset_bottom = 341.0
+offset_left = -1116.0
+offset_top = -535.0
+offset_right = 1119.0
+offset_bottom = 520.0
 color = Color(0.3597364, 0.7296404, 0.85841006, 1)
 
 [node name="boat" parent="." unique_id=858611315 instance=ExtResource("1_pds7s")]
@@ -97,10 +97,10 @@ unique_name_in_owner = true
 position = Vector2(-5, -100)
 
 [node name="sea" type="ColorRect" parent="." unique_id=162109459]
-offset_left = -601.0
+offset_left = -1217.0
 offset_top = -112.0
-offset_right = 605.0
-offset_bottom = 353.0
+offset_right = 1221.0
+offset_bottom = 541.0
 color = Color(2.2140146e-06, 0.65418804, 0.63049585, 0.74509805)
 
 [node name="box" type="RigidBody2D" parent="." unique_id=2115929618]

@@ -197,14 +197,16 @@ offset_right = 284.0
 offset_bottom = -30.0
 grow_vertical = 0
 bbcode_enabled = true
-text = "临时提示[color=orange]
-A:
-鼠标控制大炮瞄准，左键射击
+text = "[color=#895512]A:
++ 鼠标控制大炮瞄准
++ 鼠标左键射击
 [i]击杀怪物！[/i][/color]
-[color=purple]B:
-<A><D>控制渔叉瞄准，<SPACE>发射渔叉
-<TAB>键或<W><S>键切换渔叉
+[color=#651295]B:
++ [A][D]控制渔叉瞄准
++ [SPACE]发射渔叉
++ [TAB]键或[W][S]键切换渔叉
 [i]捕鱼！[/i]
+[i]千万不要把鱼都放在同一边！[/i]
 [/color]
 "
 fit_content = true

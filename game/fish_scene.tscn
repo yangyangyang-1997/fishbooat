@@ -2,8 +2,21 @@
 
 [ext_resource type="PackedScene" uid="uid://dne7w2by5imeh" path="res://game/boat/boat.tscn" id="1_pds7s"]
 [ext_resource type="Script" uid="uid://8unype1pib0u" path="res://game/game.gd" id="1_qqjhb"]
+[ext_resource type="Texture2D" uid="uid://ninp6jr8844v" path="res://textures/scene/cut/sky.png" id="2_v7lu7"]
+[ext_resource type="Texture2D" uid="uid://bhe6lxky8jbf4" path="res://textures/scene/cut/sea.png" id="4_73g8p"]
 [ext_resource type="Texture2D" uid="uid://srjp1a3iuk1b" path="res://icon.svg" id="5_d4gvw"]
 [ext_resource type="PackedScene" uid="uid://cu8jlirdhwmiy" path="res://game/fish_generater.tscn" id="6_v7lu7"]
+[ext_resource type="Texture2D" uid="uid://cusxrrfeueiqr" path="res://textures/scene/cut/shan.png" id="7_73g8p"]
+[ext_resource type="Texture2D" uid="uid://b3c0ky7snkesn" path="res://textures/scene/cut/shanhu2.png" id="7_uyyfm"]
+[ext_resource type="Texture2D" uid="uid://40coxjgy4kr2" path="res://textures/scene/cut/shanhu1.png" id="9_fedkn"]
+[ext_resource type="Texture2D" uid="uid://cqav57lsuw25m" path="res://textures/scene/cut/shanhu3.png" id="10_2q5al"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7lu7"]
+size = Vector2(64, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nim6f"]
+resource_name = "FishBox"
+size = Vector2(200, 200)
 
 [sub_resource type="GDScript" id="GDScript_jb02s"]
 resource_name = "GameCamera"
@@ -69,39 +82,25 @@ func shake_ex(strength: float, duration: float = 0.0, decay: float = 5.0):
 		_use_duration_mode = false
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7lu7"]
-size = Vector2(64, 62)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nim6f"]
-resource_name = "FishBox"
-size = Vector2(200, 200)
-
 [node name="Game" type="Node2D" unique_id=1044281898]
 texture_filter = 1
 script = ExtResource("1_qqjhb")
 camera_shake_strength = 2.0
 
-[node name="camera" type="Camera2D" parent="." unique_id=537822726]
-unique_name_in_owner = true
-script = SubResource("GDScript_jb02s")
-
-[node name="sky" type="ColorRect" parent="." unique_id=842123220]
-offset_left = -1116.0
-offset_top = -535.0
-offset_right = 1119.0
-offset_bottom = 520.0
-color = Color(0.3597364, 0.7296404, 0.85841006, 1)
+[node name="sky" type="Sprite2D" parent="." unique_id=237479016]
+position = Vector2(0, -71.999954)
+scale = Vector2(1.9453125, 6.614584)
+texture = ExtResource("2_v7lu7")
 
 [node name="boat" parent="." unique_id=858611315 instance=ExtResource("1_pds7s")]
 unique_name_in_owner = true
 position = Vector2(-5, -100)
 
-[node name="sea" type="ColorRect" parent="." unique_id=162109459]
-offset_left = -1217.0
-offset_top = -112.0
-offset_right = 1221.0
-offset_bottom = 541.0
-color = Color(2.2140146e-06, 0.65418804, 0.63049585, 0.74509805)
+[node name="sea" type="Sprite2D" parent="." unique_id=730126517]
+modulate = Color(1, 1, 1, 0.67058825)
+position = Vector2(9.000042, 227.00002)
+scale = Vector2(1.946875, 1.3076923)
+texture = ExtResource("4_73g8p")
 
 [node name="box" type="RigidBody2D" parent="." unique_id=2115929618]
 visible = false
@@ -118,7 +117,7 @@ texture = ExtResource("5_d4gvw")
 shape = SubResource("RectangleShape2D_v7lu7")
 
 [node name="fish_emitter_left_top" parent="." unique_id=1743444498 instance=ExtResource("6_v7lu7")]
-position = Vector2(-737, 75)
+position = Vector2(-804, 75)
 fish_direction = 1
 generate_interval_min = 4.0
 generate_interval_max = 5.0
@@ -126,14 +125,14 @@ generate_batch_max = 1
 shape = SubResource("RectangleShape2D_nim6f")
 
 [node name="fish_emitter_right_top" parent="." unique_id=665948640 instance=ExtResource("6_v7lu7")]
-position = Vector2(742, 75)
+position = Vector2(837, 75)
 generate_interval_min = 4.0
 generate_interval_max = 5.0
 generate_batch_max = 1
 shape = SubResource("RectangleShape2D_nim6f")
 
 [node name="fish_emitter_left_bottom" parent="." unique_id=1496453105 instance=ExtResource("6_v7lu7")]
-position = Vector2(-737, 198)
+position = Vector2(-804, 198)
 fish_direction = 1
 generate_interval_min = 5.0
 generate_interval_max = 6.0
@@ -141,8 +140,39 @@ generate_batch_min = 2
 shape = SubResource("RectangleShape2D_nim6f")
 
 [node name="fish_emitter_right_bottom" parent="." unique_id=872557581 instance=ExtResource("6_v7lu7")]
-position = Vector2(742, 198)
+position = Vector2(837, 198)
 generate_interval_min = 5.0
 generate_interval_max = 6.0
 generate_batch_min = 2
 shape = SubResource("RectangleShape2D_nim6f")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=940657158]
+
+[node name="Shanhu2" type="Sprite2D" parent="Node2D" unique_id=123548132]
+position = Vector2(103, 342)
+scale = Vector2(1.56, 1.56)
+texture = ExtResource("7_uyyfm")
+
+[node name="Shanhu4" type="Sprite2D" parent="Node2D" unique_id=644187628]
+position = Vector2(-557, 321)
+scale = Vector2(2.955, 2.955)
+texture = ExtResource("7_uyyfm")
+
+[node name="Shan" type="Sprite2D" parent="Node2D" unique_id=1469227455]
+position = Vector2(90, 303)
+scale = Vector2(0.63, 0.63)
+texture = ExtResource("7_73g8p")
+
+[node name="Shanhu1" type="Sprite2D" parent="Node2D" unique_id=569773167]
+position = Vector2(-231, 338)
+scale = Vector2(2.425, 2.425)
+texture = ExtResource("9_fedkn")
+
+[node name="Shanhu3" type="Sprite2D" parent="Node2D" unique_id=965172528]
+position = Vector2(445, 352)
+scale = Vector2(2.475, 2.475)
+texture = ExtResource("10_2q5al")
+
+[node name="camera" type="Camera2D" parent="." unique_id=537822726]
+unique_name_in_owner = true
+script = SubResource("GDScript_jb02s")

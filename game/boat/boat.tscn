@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dne7w2by5imeh"]
 
 [ext_resource type="Script" uid="uid://djj3p6pkw1iqn" path="res://game/boat/boat.gd" id="1_jb02s"]
-[ext_resource type="Texture2D" uid="uid://b8i2npe68sr1r" path="res://textures/boat/cannon.png" id="2_xqhs4"]
 [ext_resource type="PackedScene" uid="uid://dklir7x2uvn3r" path="res://game/boat/hook_point.tscn" id="4_pdqh5"]
+[ext_resource type="Texture2D" uid="uid://ct6r6t0chwbdg" path="res://textures/scene/cannon.png" id="5_0sqwg"]
 [ext_resource type="Texture2D" uid="uid://cyp1cppmlnqfj" path="res://textures/scene/boat.png" id="5_8aw07"]
 [ext_resource type="PackedScene" uid="uid://dyxr82uasgyxa" path="res://game/boat/anchor.tscn" id="5_8hwbd"]
 
@@ -69,13 +69,13 @@ texture = ExtResource("5_8aw07")
 
 [node name="cannon" type="Sprite2D" parent="." unique_id=660211298]
 unique_name_in_owner = true
-position = Vector2(0, -62)
+position = Vector2(0, -69)
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_xqhs4")
+texture = ExtResource("5_0sqwg")
 
 [node name="bullet_spawn" type="Node2D" parent="cannon" unique_id=2083075825]
 unique_name_in_owner = true
-position = Vector2(-33.333336, 0)
+position = Vector2(-28, 0)
 
 [node name="particle_on_fire" type="GPUParticles2D" parent="cannon/bullet_spawn" unique_id=1219806042]
 unique_name_in_owner = true
